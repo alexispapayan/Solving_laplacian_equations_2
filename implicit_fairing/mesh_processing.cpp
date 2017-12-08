@@ -4,9 +4,7 @@
 //
 //   "Digital 3D Geometry Processing"
 //
-//   Gaspard Zoss, Alexandru Ichim
-//
-//   Copyright (C) 2016 by Computer Graphics and Geometry Laboratory,
+//   Copyright (C) 2017 by Computer Graphics and Geometry Laboratory,
 //         EPF Lausanne
 //
 //-----------------------------------------------------------------------------
@@ -14,6 +12,7 @@
 #include "mesh_processing.h"
 #include <cmath>
 #include <set>
+#include <map>
 
 namespace mesh_processing {
 
@@ -29,152 +28,106 @@ MeshProcessing::MeshProcessing(const string& filename) {
     load_mesh(filename);
 }
 
-void MeshProcessing::implicit_smoothing(const double timestep) {
-
-    const int n = mesh_.n_vertices();
-
-    // get vertex position
-    auto points = mesh_.vertex_property<Point>("v:point");
-
-    // compute cotan edge weights and vertex areas
-    calc_weights ();
-    auto cotan = mesh_.edge_property<Scalar>("e:weight");
-    auto area_inv = mesh_.vertex_property<Scalar>("v:weight");
-
-    // A*X = B
-    Eigen::SparseMatrix<double> A(n,n);
-    Eigen::MatrixXd B(n,3);
-
-    // nonzero elements of A as triplets: (row, column, value)
-    std::vector< Eigen::Triplet<double> > triplets;
-
-    // setup matrix A and rhs B
-    for (int i = 0; i < n; ++i)
-    {
-        Mesh::Vertex v(i);
-
-        double vweight = area_inv[v];
-
-        // rhs row
-        for (int dim = 0; dim < 3; ++dim) {
-            B(i, dim) = points[v][dim] / vweight;
-        }
-
-        // lhs row
-        double ww(0.0);
-        for (auto hv: mesh_.halfedges(v))
-        {
-            Mesh::Vertex vv = mesh_.to_vertex(hv);
-            Mesh::Edge e = mesh_.edge(hv);
-
-            double eweight = cotan[e];
-            ww += eweight;
-
-            triplets.push_back(Eigen::Triplet<double>(i, vv.idx(), -timestep*eweight));
-        }
-        triplets.push_back(Eigen::Triplet<double>(i, i, 1.0/vweight + timestep*ww));
-    }
-
-    // build sparse matrix from triplets
-    A.setFromTriplets(triplets.begin(), triplets.end());
-
-    // solve A*X = B
-    Eigen::SimplicialLDLT< Eigen::SparseMatrix<double> > solver(A);
-    Eigen::MatrixXd X = solver.solve(B);
-
-    // copy solution
-    for (int i = 0; i < n; ++i)
-    {
-        Mesh::Vertex v(i);
-        for (int dim = 0; dim < 3; ++dim)
-            points[v][dim] = X(i, dim);
-    }
-
-    // clean-up
-    mesh_.remove_vertex_property(area_inv);
-    mesh_.remove_edge_property(cotan);
+void MeshProcessing::deformation() {
+	deformation_axis(0);
+	deformation_axis(1);
+	deformation_axis(2);
 }
 
-void MeshProcessing::minimal_surface() {
+void MeshProcessing::deformation_axis(int mode) {
+	const int N = mesh_.n_vertices();
 
-    const int n = mesh_.n_vertices();
+	calc_weights();
+	auto cotan = mesh_.edge_property<Scalar>("e:weight");
 
-    // get vertex position
-    auto points = mesh_.vertex_property<Point>("v:point");
-    auto points_init = mesh_init_.vertex_property<Point>("v:point");
+	Eigen::SparseMatrix<double> L(N, N);
+	Eigen::MatrixXd rhs(Eigen::MatrixXd::Zero(N, 1));
+	std::vector< Eigen::Triplet<double> > triplets_L;
 
-    // compute cotan edge weights and vertex areas
-    calc_weights ();
-    auto cotan = mesh_.edge_property<Scalar>("e:weight");
-    auto area_inv = mesh_.vertex_property<Scalar>("v:weight");
+	
+	// ! Adding itearators
+	Mesh::Halfedge_around_vertex_circulator vh_c, vh_end;
+	Mesh::Vertex neighbor_v;
+	Mesh::Edge e;
 
-    // A*X = B
-    Eigen::SparseMatrix<double> L (n, n);
-    Eigen::MatrixXd rhs (Eigen::MatrixXd::Zero (n, 3));
+	for (int i = 0; i < N; ++i) {
 
-    // nonzero elements of A as triplets: (row, column, value)
-    std::vector< Eigen::Triplet<double> > triplets_L;
+		// ------------- IMPLEMENT HERE ---------
+		// Set up Laplace-Beltrami matrix of the mesh
+		// ------------- IMPLEMENT HERE ---------	
 
-        double area_sum = 0.;
-    // setup matrix A and rhs B
-    for (int i = 0; i < n; ++i) {
-        Mesh::Vertex v(i);
-        area_sum += 1. / area_inv[v];
-
-        if (mesh_.is_boundary(v) ) {
-            triplets_L.push_back (Eigen::Triplet<double> (i, i, 1.));
-
-            // rhs row -- all equal to zero
-            for (int dim = 0; dim < 3; ++dim) {
-                rhs(i, dim) = points_init[v][dim];
-            }
-        } else {
-            // rhs row -- all equal to zero
-            for (int dim = 0; dim < 3; ++dim) {
-                rhs(i, dim) = 0;
-            }
-
-            // lhs row
-            double ww(0.0);
-            for (auto hv: mesh_.halfedges(v)) {
-                Mesh::Vertex vv = mesh_.to_vertex(hv);
-                Mesh::Edge    e = mesh_.edge(hv);
-
-                double eweight = cotan[e];
-                ww += eweight;
-
-                triplets_L.push_back(Eigen::Triplet<double>(i, vv.idx(), -eweight));
-            }
-            triplets_L.push_back(Eigen::Triplet<double>(i, i, ww));
-        }
-    }
-    printf ("Sum of area: %g.\n", area_sum);
+		Mesh::Vertex v(i);
+		auto currentEdgeAngle = 0;
+		auto sumOfEdgeWeights = 0;
 
 
-    L.setFromTriplets (triplets_L.begin (), triplets_L.end ());
+		//Loop through adjacent halfedges to get adjacent vertices
+		vh_c = mesh_.halfedges(v);
+		vh_end = vh_c;
+		do {
+			neighbor_v = mesh_.to_vertex(*vh_c);
+			e = mesh_.find_edge(v, neighbor_v);
+			currentEdgeAngle = cotan[e];
+			sumOfEdgeWeights += currentEdgeAngle;
+		
+		} while (++vh_c != vh_end);
 
-    // solve A*X = B
-    Eigen::SparseLU< Eigen::SparseMatrix<double> > solver(L);
-    if (solver.info () != Eigen::Success) {
-        printf("linear solver init failed.\n");
-    }
+		triplets_L.push_back(Eigen::Triplet<double>(v.idx(), neighbor_v.idx(), currentEdgeAngle));
+		triplets_L.push_back(Eigen::Triplet<double>(v.idx(), v.idx(), sumOfEdgeWeights));
+	
 
-    Eigen::MatrixXd X = solver.solve(rhs);
-    if (solver.info () != Eigen::Success) {
-        printf("linear solver failed.\n");
-    }
+		// ! Adding restrictions to B matrix
+		for (std::vector<size_t>::iterator it = shifted_faces_points_indices_.begin();it != shifted_faces_points_indices_.end();++it)
+		{
+			if (v.idx() == *it)
+			{	
+				rhs(v.idx()) = displacement_[mode];
+				}
 
-    // copy solution
-    for (int i = 0; i < n; ++i) {
-        Mesh::Vertex v(i);
-        for (int dim = 0; dim < 3; ++dim) {
-            points[v][dim] += 1. * (X(i, dim) - points[v][dim]);
-        }
-    }
+			}
+		
+	}
 
-    // clean-up
-    mesh_.remove_vertex_property(area_inv);
-    mesh_.remove_edge_property(cotan);
+	// ! Setting the L Matrix
+	L.setFromTriplets(triplets_L.begin(), triplets_L.end());
+	auto L_squared=L*L;
+	// ------------- IMPLEMENT HERE ---------
+	// Compute squared Laplace-Beltrami matrix 
+	// For each fixed and shifted vertex replace the corresponding row of squared Laplace-Beltrami matrix with the constraint row
+	//    Hint: to iterate through sparse matrix use Eigen::SparseMatrix<double>::InnerIterator.
+	//          note that sparse matrix is stored column-wise
+	//          since squared Laplace-Beltrami matrix is symmetric, 
+	//          you can traverse the matrix column-wise and transpose the result
+	// Solve the linear system L2x = b
+	// Displace the vertices by x
+	//    Hint: the input parameter of the function "mode" indicates the current displacement axis.
+	//    the function deformation_axis() is called 3 times, with mode = 0, mode = 1 and mode = 3 for the axis X, Y and Z
+	// ------------- IMPLEMENT HERE ---------
+	fixed_faces_points_indices_;
+	
+
+
+
+
+	//Solving the linear system
+	Eigen::SparseLU< Eigen::SparseMatrix<double> > solver(L_squared);
+	if (solver.info() != Eigen::Success)
+		printf("linear solver init failed.\n");
+
+	Eigen::MatrixXd X = solver.solve(rhs);
+	if (solver.info() != Eigen::Success)
+		printf("linear solver failed.\n");
+
+
+	//Setting the values
+	Mesh::Vertex_property<Scalar> v_harmonic_function = mesh_.vertex_property<Scalar>("Harmonic", 0.0f);
+
+	for (int i = 0; i < N; ++i)
+		v_harmonic_function[Mesh::Vertex(i)] = X(i, mode);
+
+
+	// clean-up
+	mesh_.remove_edge_property(cotan);
 }
 
 void MeshProcessing::calc_uniform_mean_curvature() {
@@ -274,122 +227,6 @@ void MeshProcessing::calc_gauss_curvature() {
             curv = (2 * (Scalar)M_PI - angles) * 2.0f * v_weight[v];
         }
         v_gauss_curvature[v] = curv;
-    }
-}
-
-void MeshProcessing::uniform_smooth(const unsigned int iterations) {
-    Mesh::Vertex_around_vertex_circulator vv_c, vv_end;
-    Point laplacian;
-    unsigned int w;
-    Mesh::Vertex_property<Point> v_new_pos = mesh_.vertex_property<Point>("v:new_positions");
-
-    for (unsigned int iter=0; iter<iterations; ++iter) {
-        // compute new vertex positions by Laplacian smoothing
-        for (auto v: mesh_.vertices()) {
-            laplacian = Point(0.0);
-            w = 0;
-
-            if (!mesh_.is_boundary(v)) {
-                vv_c = mesh_.vertices(v);
-                vv_end = vv_c;
-
-                do {
-                    laplacian += (mesh_.position(*vv_c) - mesh_.position(v));
-                    w++;
-                } while(++vv_c != vv_end);
-
-                laplacian /= w;   // normalize by sum of weights
-                laplacian *= 0.5;  // damping
-            }
-
-            v_new_pos[v] = mesh_.position(v) + laplacian;
-        }
-
-        // update vertex positions
-        for (auto v: mesh_.vertices()) {
-            mesh_.position(v) = v_new_pos[v];
-        }
-    }
-}
-
-void MeshProcessing::smooth(const unsigned int iterations) {
-    Mesh::Halfedge h;
-    Mesh::Edge e;
-    Mesh::Halfedge_around_vertex_circulator vh_c, vh_end;
-    Mesh::Vertex neighbor_v;
-    Point laplace;
-    Scalar w, ww;
-    Mesh::Vertex_property<Point> v_new_pos =
-            mesh_.vertex_property<Point>("v:new_pos");
-    Mesh::Edge_property<Scalar> e_weight =
-            mesh_.edge_property<Scalar>("e:weight", 0.0f);
-
-    for (unsigned int iter=0; iter<iterations; ++iter) {
-        // update edge weights
-        calc_edges_weights();
-
-        // compute new vertex positions by Laplacian smoothing
-        for (auto v: mesh_.vertices()) {
-            laplace = Point(0.0);
-            ww = 0;
-
-            if (!mesh_.is_boundary(v)) {
-                vh_c = mesh_.halfedges(v);
-                vh_end = vh_c;
-
-                do {
-                    h = *vh_c;
-                    e = mesh_.edge(h);
-                    w = e_weight[e];
-                    ww += w;
-                    neighbor_v = mesh_.to_vertex(h);
-
-                    laplace += w * (mesh_.position(neighbor_v) - mesh_.position(v));
-
-                } while(++vh_c != vh_end);
-
-                laplace /= ww;   // normalize by sum of weights
-                laplace *= 0.5;  // damping
-            }
-
-            v_new_pos[v] = mesh_.position(v) + laplace;
-        }
-
-
-        // update vertex positions
-        for (auto v: mesh_.vertices()) {
-            mesh_.position(v) = v_new_pos[v];
-        }
-    }
-}
-
-void MeshProcessing::uniform_laplacian_enhance_feature(const unsigned int iterations,
-                                                       const unsigned int coefficient) {
-    Mesh::Vertex_property<Point> v_old_pos = mesh_.vertex_property<Point>("v:old_pos");
-
-    for(auto v: mesh_.vertices()) {
-        v_old_pos[v] = mesh_.position(v);
-    }
-
-    uniform_smooth(iterations);
-
-    for(auto v: mesh_.vertices()) {
-        mesh_.position(v) += (v_old_pos[v] - mesh_.position(v)) * coefficient;
-    }
-}
-
-void MeshProcessing::laplace_beltrami_enhance_feature(const unsigned int iterations,
-                                                      const unsigned int coefficient) {
-    Mesh::Vertex_property<Point> v_old_pos = mesh_.vertex_property<Point>("v:old_pos");
-
-    for(auto v: mesh_.vertices()) {
-        v_old_pos[v] = mesh_.position(v);
-    }
-
-    smooth(iterations);
-
-    for(auto v: mesh_.vertices()) {
-        mesh_.position(v) += (v_old_pos[v] - mesh_.position(v)) * coefficient;
     }
 }
 
@@ -515,6 +352,9 @@ void MeshProcessing::compute_mesh_properties() {
     Mesh::Vertex_property<Color> v_color_gaussian_curv =
             mesh_.vertex_property<Color>("v:color_gaussian_curv",
                                          Color(1.0f, 1.0f, 1.0f));
+	Mesh::Vertex_property<Color> v_color_laplacian =
+		mesh_.vertex_property<Color>("v:color_laplacian",
+			Color(1.0f, 1.0f, 1.0f));
 
     Mesh::Vertex_property<Scalar> vertex_valence =
             mesh_.vertex_property<Scalar>("v:valence", 0.0f);
@@ -528,6 +368,8 @@ void MeshProcessing::compute_mesh_properties() {
             mesh_.vertex_property<Scalar>("v:curvature", 0.0f);
     Mesh::Vertex_property<Scalar> v_gauss_curvature =
             mesh_.vertex_property<Scalar>("v:gauss_curvature", 0.0f);
+	Mesh::Vertex_property<Scalar> v_harmonic_function =
+		mesh_.vertex_property<Scalar>("v:harmonic_function_0", 0.0f);
 
     calc_weights();
     calc_uniform_mean_curvature();
@@ -537,6 +379,7 @@ void MeshProcessing::compute_mesh_properties() {
     color_coding(v_unicurvature, &mesh_, v_color_unicurvature);
     color_coding(v_curvature, &mesh_, v_color_curvature);
     color_coding(v_gauss_curvature, &mesh_, v_color_gaussian_curv);
+	color_coding(v_harmonic_function, &mesh_, v_color_laplacian);
 
     // get the mesh attributes and upload them to the GPU
     int j = 0;
@@ -548,9 +391,10 @@ void MeshProcessing::compute_mesh_properties() {
     color_unicurvature_ = Eigen::MatrixXf(3, n_vertices);
     color_curvature_ = Eigen::MatrixXf(3, n_vertices);
     color_gaussian_curv_ = Eigen::MatrixXf(3, n_vertices);
+	color_laplacian_ = Eigen::MatrixXf(3, n_vertices);
     normals_ = Eigen::MatrixXf(3, n_vertices);
-    points_ = Eigen::MatrixXf(3, n_vertices);
-	selection_ = Eigen::MatrixXf(3, 1);
+    points_ = Eigen::MatrixXf(3, n_vertices);	
+	selection_ = Eigen::MatrixXf(3, 4);
     indices_ = MatrixXu(3, mesh_.n_faces());
 
     for(auto f: mesh_.faces()) {
@@ -569,10 +413,6 @@ void MeshProcessing::compute_mesh_properties() {
         points_.col(j) << mesh_.position(v).x,
                           mesh_.position(v).y,
                           mesh_.position(v).z;
-
-		/*selection_.col(j) << mesh_.position(v).x,
-							 mesh_.position(v).y,
-							 mesh_.position(v).z;*/
 
         normals_.col(j) << vertex_normal[v].x,
                            vertex_normal[v].y,
@@ -593,6 +433,10 @@ void MeshProcessing::compute_mesh_properties() {
         color_gaussian_curv_.col(j) << v_color_gaussian_curv[v].x,
                                        v_color_gaussian_curv[v].y,
                                        v_color_gaussian_curv[v].z;
+
+		color_laplacian_.col(j) << v_color_laplacian[v].x,
+								   v_color_laplacian[v].y,
+								   v_color_laplacian[v].z;
         ++j;
     }
 }
@@ -655,21 +499,100 @@ Color MeshProcessing::value_to_color(Scalar value, Scalar min_value, Scalar max_
     return col;
 }
 
-Eigen::Vector3f MeshProcessing::get_closest_vertex(const Eigen::Vector3f & origin, const Eigen::Vector3f & direction) {
+Eigen::Vector3f MeshProcessing::get_closest_vertex(const Eigen::Vector3f & origin, const Eigen::Vector3f & direction, size_t & closest_index) {
 	float min_distance = std::numeric_limits<float>::max();
 	Eigen::Vector3f closest_vertex;
-	for (auto v : mesh_.vertices()) {
+
+	for (int i = 0; i <  mesh_.n_vertices(); ++i) {
+		Mesh::Vertex v(i);
 		Eigen::Vector3f point;
 		point << mesh_.position(v).x, mesh_.position(v).y, mesh_.position(v).z;
 		float projection_length = (point - origin).dot(direction);
 		Eigen::Vector3f difference = point - (origin + projection_length * direction);
 		float distance = difference.norm();
 		if (distance < min_distance) {
+			closest_index = i;
 			min_distance = distance;
 			closest_vertex = point;
 		}
 	}
 	return closest_vertex;
+}
+
+bool ray_triangle_intersection(const Eigen::Vector3f & p0, const Eigen::Vector3f & p1, const Eigen::Vector3f & p2, const Eigen::Vector3f & o, const Eigen::Vector3f & d, Eigen::Vector3f & i) {
+	float epsilon = 0.0000001;
+	Eigen::Vector3f e1 = p1 - p0;
+	Eigen::Vector3f e2 = p2 - p0;
+	Eigen::Vector3f q = d.cross(e2);
+	float a = e1.dot(q);
+
+	// the vector is parallel to the plane(the intersection is at infinity)
+	if (a > -epsilon && a < epsilon) {
+		return false;
+	}
+	float f = 1 / a;
+	Eigen::Vector3f s = o - p0;
+	float u = f * s.dot(q);
+
+	// the intersection is outside of the triangle
+	if (u < 0.0) {
+		return false;
+	}
+	Eigen::Vector3f r = s.cross(e1);
+	float v = f * d.dot(r);
+
+	// the intersection is outside of the triangle
+	if (v <0.0 || u + v > 1.0) {
+		return false;
+	}
+	float t = f * e2.dot(r);
+	i = o + t * d;
+	return true;
+}
+
+int MeshProcessing::get_closest_face(const Eigen::Vector3f & origin, const Eigen::Vector3f & direction, int mode) {
+	float min_distance = std::numeric_limits<float>::max();
+	int closest_index = -1;
+
+	//for (Mesh::Face_iterator f_it = mesh_.faces_begin(); f_it != mesh_.faces_end(); ++f_it) {
+	for (size_t i = 0; i < mesh_.n_faces(); i++) {
+		Mesh::Vertex_around_face_circulator fv_c = mesh_.vertices(Mesh::Face(i));
+		Mesh::Vertex_around_face_circulator  fv_end = fv_c;
+		std::vector<Point> points;
+		do {
+			Mesh::Vertex v = (*fv_c);
+			Point p = mesh_.position(v);
+			points.push_back(p);
+		} while (++fv_c != fv_end);
+		Eigen::Vector3f p0 = Eigen::Vector3f(points[0][0], points[0][1], points[0][2]);
+		Eigen::Vector3f p1 = Eigen::Vector3f(points[1][0], points[1][1], points[1][2]);
+		Eigen::Vector3f p2 = Eigen::Vector3f(points[2][0], points[2][1], points[2][2]);
+		Eigen::Vector3f intersection;
+		bool is_intersecting = ray_triangle_intersection(p0, p1, p2, origin, direction, intersection);
+		if (!is_intersecting) continue;
+		float distance = (origin - intersection).norm();
+		if (distance < min_distance) {
+			closest_index = i;
+			min_distance = distance;
+		}
+	}
+	if (closest_index >= 0) {
+		Mesh::Vertex_around_face_circulator fv_c = mesh_.vertices(Mesh::Face(closest_index));
+		Mesh::Vertex_around_face_circulator  fv_end = fv_c;		
+		do {
+			Mesh::Vertex v = (*fv_c);
+			Point p = mesh_.position(v);
+			if (mode == 0) {
+				fixed_faces_points_.push_back(p);
+				fixed_faces_points_indices_.push_back(v.idx());
+			}
+			if (mode == 1) {
+				shifted_faces_points_.push_back(p);
+				shifted_faces_points_indices_.push_back(v.idx());
+			}
+		} while (++fv_c != fv_end);		
+	}
+	return closest_index;
 }
 
 MeshProcessing::~MeshProcessing() {}
