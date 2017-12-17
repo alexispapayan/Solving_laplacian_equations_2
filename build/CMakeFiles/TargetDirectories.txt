@@ -1,0 +1,17 @@
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/CMakeFiles/DGP_DATA.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/CMakeFiles/INSTALL.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/CMakeFiles/bin2c.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/CMakeFiles/nanogui.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/CMakeFiles/INSTALL.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/CMakeFiles/ALL_BUILD.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/ext_build/glfw/CMakeFiles/INSTALL.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/ext_build/glfw/CMakeFiles/ALL_BUILD.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/ext_build/glfw/src/CMakeFiles/glfw_objects.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/ext_build/glfw/src/CMakeFiles/glfw.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/ext_build/glfw/src/CMakeFiles/INSTALL.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/externals/surface_mesh/CMakeFiles/surface_mesh.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/externals/surface_mesh/CMakeFiles/INSTALL.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/implicit_fairing/CMakeFiles/implicit_fairing.dir
+C:/Users/gauss/Desktop/dgp2017-exercise10/build/implicit_fairing/CMakeFiles/INSTALL.dir

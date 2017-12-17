@@ -1,0 +1,5 @@
+# CMake generation dependency list for this directory.
+C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt
+C:/Program Files/CMake/share/cmake-3.6/Modules/CheckCXXCompilerFlag.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CheckCXXSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake

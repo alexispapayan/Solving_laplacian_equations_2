@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{8748468D-6520-3900-93BB-F04768678AC4}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>nanogui</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\Debug\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">nanogui.dir\Debug\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">nanogui</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\Release\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">nanogui.dir\Release\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">nanogui</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\MinSizeRel\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">nanogui.dir\MinSizeRel\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">nanogui</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\RelWithDebInfo\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">nanogui.dir\RelWithDebInfo\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">nanogui</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalOptions> /bigobj /w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS;NANOGUI_BUILD;NANOGUI_GLAD;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS;NANOGUI_BUILD;NANOGUI_GLAD;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalOptions> /bigobj /w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NANOGUI_BUILD;NANOGUI_GLAD;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NANOGUI_BUILD;NANOGUI_GLAD;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalOptions> /bigobj /w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NANOGUI_BUILD;NANOGUI_GLAD;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NANOGUI_BUILD;NANOGUI_GLAD;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalOptions> /bigobj /w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NANOGUI_BUILD;NANOGUI_GLAD;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;NANOGUI_BUILD;NANOGUI_GLAD;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\eigen;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glfw\include;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/gauss/Desktop/dgp2017-exercise10 -BC:/Users/gauss/Desktop/dgp2017-exercise10/build --check-stamp-file C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.6\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.6\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.6\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/gauss/Desktop/dgp2017-exercise10 -BC:/Users/gauss/Desktop/dgp2017-exercise10/build --check-stamp-file C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.6\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.6\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.6\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/gauss/Desktop/dgp2017-exercise10 -BC:/Users/gauss/Desktop/dgp2017-exercise10/build --check-stamp-file C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.6\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.6\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.6\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/gauss/Desktop/dgp2017-exercise10 -BC:/Users/gauss/Desktop/dgp2017-exercise10/build --check-stamp-file C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.6\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.6\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.6\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\CMakeFiles\ab5323b6a9516b6deaceeee2c7fae45e\nanogui_resources.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Running bin2c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+Debug\bin2c.exe nanogui_resources.cpp nanogui_resources.h C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/Roboto-Bold.ttf C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/Roboto-Regular.ttf C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/entypo.ttf
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/gauss/Desktop/dgp2017-exercise10/build/CMakeFiles/ab5323b6a9516b6deaceeee2c7fae45e/nanogui_resources.cpp.rule;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\Debug\bin2c.exe;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\Roboto-Bold.ttf;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\Roboto-Regular.ttf;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\entypo.ttf;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.cpp;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Running bin2c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+Release\bin2c.exe nanogui_resources.cpp nanogui_resources.h C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/Roboto-Bold.ttf C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/Roboto-Regular.ttf C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/entypo.ttf
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/gauss/Desktop/dgp2017-exercise10/build/CMakeFiles/ab5323b6a9516b6deaceeee2c7fae45e/nanogui_resources.cpp.rule;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\Release\bin2c.exe;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\Roboto-Bold.ttf;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\Roboto-Regular.ttf;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\entypo.ttf;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.cpp;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Running bin2c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+MinSizeRel\bin2c.exe nanogui_resources.cpp nanogui_resources.h C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/Roboto-Bold.ttf C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/Roboto-Regular.ttf C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/entypo.ttf
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/gauss/Desktop/dgp2017-exercise10/build/CMakeFiles/ab5323b6a9516b6deaceeee2c7fae45e/nanogui_resources.cpp.rule;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\MinSizeRel\bin2c.exe;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\Roboto-Bold.ttf;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\Roboto-Regular.ttf;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\entypo.ttf;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.cpp;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Running bin2c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+RelWithDebInfo\bin2c.exe nanogui_resources.cpp nanogui_resources.h C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/Roboto-Bold.ttf C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/Roboto-Regular.ttf C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/resources/entypo.ttf
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/gauss/Desktop/dgp2017-exercise10/build/CMakeFiles/ab5323b6a9516b6deaceeee2c7fae45e/nanogui_resources.cpp.rule;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\RelWithDebInfo\bin2c.exe;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\Roboto-Bold.ttf;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\Roboto-Regular.ttf;C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\resources\entypo.ttf;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.cpp;C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include\glad\glad.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\include\KHR\khrplatform.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\glutil.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\common.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\widget.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\theme.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\layout.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\screen.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\label.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\window.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\popup.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\checkbox.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\button.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\popupbutton.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\combobox.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\progressbar.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\slider.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\messagedialog.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\textbox.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\imagepanel.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\imageview.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\vscrollpanel.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\colorwheel.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\colorpicker.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\graph.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\stackedwidget.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\tabheader.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\tabwidget.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\formhelper.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\toolbutton.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\opengl.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\nanogui.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\serializer\core.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\serializer\opengl.h" />
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\include\nanogui\serializer\sparse.h" />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\nanovg\src\nanovg.c" >
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4005;4456;4457;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NVG_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4005;4456;4457;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NVG_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">4005;4456;4457;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">NVG_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">4005;4456;4457;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">NVG_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\ext\glad\src\glad.c" >
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4055;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4055;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">4055;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">4055;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\nanogui_resources.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\glutil.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\common.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\widget.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\theme.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\layout.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\screen.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\label.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\window.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\popup.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\checkbox.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\button.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\popupbutton.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\combobox.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\progressbar.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\slider.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\messagedialog.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\textbox.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\imagepanel.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\imageview.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\vscrollpanel.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\colorwheel.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\colorpicker.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\graph.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\stackedwidget.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\tabheader.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\tabwidget.cpp"  />
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\nanogui\src\serializer.cpp"  />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\context.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\init.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\input.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\monitor.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\vulkan.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\window.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\win32_init.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\win32_joystick.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\win32_monitor.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\win32_time.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\win32_tls.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\win32_window.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\wgl_context.obj" />
+    <Object Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\glfw_objects.dir\$(Configuration)\egl_context.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Users/gauss/Desktop/dgp2017-exercise10/build/ZERO_CHECK.vcxproj">
+      <Project>5E6140E7-A2FC-32FB-A3FF-23A893B33DCA</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/bin2c.vcxproj">
+      <Project>7BA63800-EB15-3F74-B229-66D43B1A1BA8</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/gauss/Desktop/dgp2017-exercise10/build/nanogui/ext_build/glfw/src/glfw_objects.vcxproj">
+      <Project>3F763FDE-D624-3F6C-9E0B-370C66EB7B62</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

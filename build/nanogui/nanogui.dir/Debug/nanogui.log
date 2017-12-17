@@ -1,0 +1,45 @@
+﻿  Building Custom Rule C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt
+  CMake does not need to re-run because C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp is up-to-date.
+  Running bin2c
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  nanovg.c
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  glad.c
+cl : Command line warning D9025: overriding '/W4' with '/w'
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  nanogui_resources.cpp
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  glutil.cpp
+cl : Command line warning D9025: overriding '/W4' with '/w'
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  common.cpp
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  widget.cpp
+  theme.cpp
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  layout.cpp
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  screen.cpp
+cl : Command line warning D9025: overriding '/W4' with '/w'
+  label.cpp
+  window.cpp
+  popup.cpp
+  checkbox.cpp
+  button.cpp
+  popupbutton.cpp
+  combobox.cpp
+  progressbar.cpp
+  slider.cpp
+  messagedialog.cpp
+  textbox.cpp
+  imagepanel.cpp
+  imageview.cpp
+  vscrollpanel.cpp
+  colorwheel.cpp
+  colorpicker.cpp
+  graph.cpp
+  stackedwidget.cpp
+  tabheader.cpp
+  tabwidget.cpp
+  serializer.cpp
+  nanogui.vcxproj -> C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\Debug\nanogui.lib

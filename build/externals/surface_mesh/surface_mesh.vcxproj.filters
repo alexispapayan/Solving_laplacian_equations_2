@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\IO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\IO_obj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\IO_off.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\IO_poly.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\IO_stl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\Surface_mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\IO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\Surface_mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\Vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\surface_mesh\types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\gauss\Desktop\dgp2017-exercise10\externals\surface_mesh\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{611B623D-30BB-314C-B5B3-5D0304198846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{F90C4E51-806E-3AAF-8C7A-5787D84EE7A8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

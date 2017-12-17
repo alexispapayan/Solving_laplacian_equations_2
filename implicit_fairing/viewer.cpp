@@ -22,8 +22,25 @@ void Viewer::select_point(const Eigen::Vector2i & pixel) {
 	Eigen::Vector3f endpoint = nanogui::unproject(Eigen::Vector3f(pixel[0], pixel[1], 1), view * model, projection, mSize);
 	Eigen::Vector3f direction = (endpoint - origin) / (endpoint - origin).norm();
 
-	Eigen::Vector3f closest_vertex = mesh_->get_closest_vertex(origin, direction);
-	mesh_->set_selection(closest_vertex);
+	Eigen::Vector3f closest_vertex = mesh_->get_closest_vertex(origin, direction, contraint_indices_[edit_constraint_index_]);
+	mesh_->set_selection(closest_vertex, edit_constraint_index_);
+	cout << contraint_indices_[0] << " " << contraint_indices_[1] << " " << contraint_indices_[2] << " " << contraint_indices_[3] << endl;
+}
+
+void Viewer::select_face(const Eigen::Vector2i & pixel, int mode) {
+	Eigen::Matrix4f model, view, projection;
+	computeCameraMatrices(model, view, projection);
+	Matrix4f MVP = projection * view * model;
+	Matrix4f invMVP = MVP.inverse();
+
+	Eigen::Vector3f origin = nanogui::unproject(Eigen::Vector3f(pixel[0], pixel[1], 0), view * model, projection, mSize);
+	Eigen::Vector3f endpoint = nanogui::unproject(Eigen::Vector3f(pixel[0], pixel[1], 1), view * model, projection, mSize);
+	Eigen::Vector3f direction = (endpoint - origin) / (endpoint - origin).norm();
+
+	int closest_index = mesh_->get_closest_face(origin, direction, mode);
+	//mesh_->set_selection(closest_vertex, edit_constraint_index_);
+	//cout << contraint_indices_[0] << " " << contraint_indices_[1] << " " << contraint_indices_[2] << " " << contraint_indices_[3] << endl;
+	cout << closest_index << endl;
 }
 
 bool Viewer::keyboardEvent(int key, int scancode, int action, int modifiers) {
@@ -59,7 +76,7 @@ void Viewer::drawContents() {
 
 	Matrix4f mv = view*model;
 	Matrix4f p = proj;
-
+	
 	/* MVP uniforms */
 	shader_.setUniform("MV", mv);
 	shader_.setUniform("P", p);
@@ -75,7 +92,7 @@ void Viewer::drawContents() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
-	Vector3f colors(1.0, 1.5, 1.0);
+	Vector3f colors(1.0, 1.0, 1.0);
 	shader_.setUniform("intensity", colors);
 	if (color_mode == CURVATURE) {
 		shader_.setUniform("color_mode", int(curvature_type));
@@ -88,7 +105,7 @@ void Viewer::drawContents() {
 	if (wireframe_) {
 		glDisable(GL_POLYGON_OFFSET_FILL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		colors << 0.5, 0.7, 0.5;
+		colors << 0.6, 0.6, 0.6;
 		shader_.setUniform("intensity", colors);
 		shader_.drawIndexed(GL_TRIANGLES, 0, mesh_->get_number_of_face());
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -100,15 +117,37 @@ void Viewer::drawContents() {
 		shaderNormals_.setUniform("P", p);
 		shaderNormals_.drawIndexed(GL_TRIANGLES, 0, mesh_->get_number_of_face());
 	}
-	selection_ = true;
-	if (selection_) {
-		shaderSelection_.bind();
-		shaderSelection_.setUniform("MV", mv);
-		shaderSelection_.setUniform("P", p);
-		glEnable(GL_PROGRAM_POINT_SIZE);
-		shaderSelection_.drawIndexed(GL_POINTS, 0, mesh_->get_number_of_face());
-		glDisable(GL_PROGRAM_POINT_SIZE);		
+
+	if (displacement_) {
+		glEnable(GL_LINE_SMOOTH);
+		glLineWidth(3.0);
+		shaderDisplacement_.bind();
+		shaderDisplacement_.setUniform("MV", mv);
+		shaderDisplacement_.setUniform("P", p);
+		shaderDisplacement_.drawArray(GL_LINES, 0, mesh_->displacement_points_.size());
+		glDisable(GL_LINE_SMOOTH);
 	}
+
+	shaderSelection_.bind();
+	shaderSelection_.setUniform("MV", mv);
+	shaderSelection_.setUniform("P", p);
+	glEnable(GL_PROGRAM_POINT_SIZE);
+	shaderSelection_.drawIndexed(GL_POINTS, 0, mesh_->get_number_of_face());
+	glDisable(GL_PROGRAM_POINT_SIZE);		
+
+	if (mesh_->fixed_faces_points_.size() > 0) {
+		shaderFixedFaces_.bind();
+		shaderFixedFaces_.setUniform("MV", mv);
+		shaderFixedFaces_.setUniform("P", p);
+		shaderFixedFaces_.drawIndexed(GL_TRIANGLES, 0, mesh_->fixed_faces_points_.size() / 3);
+	}
+	if (mesh_->shifted_faces_points_.size() > 0) {
+		shaderShiftedFaces_.bind();
+		shaderShiftedFaces_.setUniform("MV", mv);
+		shaderShiftedFaces_.setUniform("P", p);
+		shaderShiftedFaces_.drawIndexed(GL_TRIANGLES, 0, mesh_->shifted_faces_points_.size() / 3);
+	}
+	 
 }
 
 bool Viewer::scrollEvent(const Vector2i &p, const Vector2f &rel) {
@@ -156,9 +195,24 @@ bool Viewer::mouseButtonEvent(const Vector2i &p, int button, bool down, int modi
 			translate_ = true;
 			translateStart_ = p;
 		}
-		else if (button == GLFW_MOUSE_BUTTON_1 && modifiers == GLFW_MOD_CONTROL) {
-			select_point(Eigen::Vector2i(p.x(), mSize.y() - p.y()));
-			refresh_selection();
+		else if (button == GLFW_MOUSE_BUTTON_1 && modifiers == GLFW_MOD_CONTROL && !down) {
+			//select_point(Eigen::Vector2i(p.x(), mSize.y() - p.y()));
+			//refresh_selection();
+			cout << "fixed_faces_ = " << fixed_faces_ << endl;
+			cout << "shifted_faces_ = " << shifted_faces_ << endl;
+			cout << "# fixed points = " << mesh_->fixed_faces_points_.size() << endl;
+			cout << "# shifted points = " << mesh_->shifted_faces_points_.size() << endl;
+			if (fixed_faces_) {
+				select_face(Eigen::Vector2i(p.x(), mSize.y() - p.y()), 0);
+				refresh_selected_faces();
+			}
+			if (shifted_faces_) {
+				select_face(Eigen::Vector2i(p.x(), mSize.y() - p.y()), 1);
+				refresh_selected_faces();
+			}
+			cout << "# fixed points = " << mesh_->fixed_faces_points_.size() << endl;
+			cout << "# shifted points = " << mesh_->shifted_faces_points_.size() << endl;
+			
 		}
 	}
 	if (button == GLFW_MOUSE_BUTTON_1 && !down) {
@@ -185,6 +239,7 @@ void Viewer::initShaders() {
 		"in vec3 position;\n"
 		"in vec3 valence_color;\n"
 		"in vec3 unicruvature_color;\n"
+		"in vec3 laplacian_color;\n"
 		"in vec3 curvature_color;\n"
 		"in vec3 gaussian_curv_color;\n"
 		"in vec3 normal;\n"
@@ -205,6 +260,8 @@ void Viewer::initShaders() {
 		"        fcolor = curvature_color;\n"
 		"    } else if (color_mode == 4) {\n"
 		"        fcolor = gaussian_curv_color;\n"
+		"    } else if (color_mode == 5) {\n"
+		"        fcolor = laplacian_color;\n"
 		"    } else {\n"
 		"        fcolor = intensity;\n"
 		"    }\n"
@@ -227,17 +284,17 @@ void Viewer::initShaders() {
 
 		"void main() {\n"
 		"    vec3 c = vec3(0.0);\n"
-		"    if (color_mode == 0) {\n"
-		"        c += vec3(1.0)*vec3(0.18, 0.1, 0.1);\n"
+		"    if (color_mode >= 0) {\n"
+		"        c += vec3(1.0)*vec3(0.15, 0.15, 0.15);\n"
 		"        vec3 n = normalize(fnormal);\n"
 		"        vec3 v = normalize(view_dir);\n"
 		"        vec3 l = normalize(light_dir);\n"
 		"        float lambert = dot(n,l);\n"
 		"        if(lambert > 0.0) {\n"
-		"            c += vec3(1.0)*vec3(0.9, 0.5, 0.5)*lambert;\n"
+		"            c += vec3(1.0)*vec3(0.85, 0.85, 0.85)*lambert;\n"
 		"            vec3 v = normalize(view_dir);\n"
 		"            vec3 r = reflect(-l,n);\n"
-		"            c += vec3(1.0)*vec3(0.8, 0.8, 0.8)*pow(max(dot(r,v), 0.0), 90.0);\n"
+		"            c += vec3(1.0)*vec3(0.7, 0.7, 0.7)*pow(max(dot(r,v), 0.0), 90.0);\n"
 		"        }\n"
 		"        c *= fcolor;\n"
 		"    } else {\n"
@@ -317,8 +374,72 @@ void Viewer::initShaders() {
 	"#version 330\n"
 	"out vec4 color;\n"
 	"void main() {\n"
-	"    color = vec4(0.7, 0.0, 0.2, 1.0);\n"
+	"	 if (gl_PrimitiveID == 0) color = vec4(0.7, 0.0, 0.2, 1.0);\n"
+	"	 if (gl_PrimitiveID == 1) color = vec4(0.3, 0.2, 0.7, 1.0);\n"
+	"	 if (gl_PrimitiveID == 2) color = vec4(0.13, 0.7, 0.3, 1.0);\n"
+	"	 if (gl_PrimitiveID == 3) color = vec4(1, 0.5, 0.15, 1.0);\n"
 	"}"
+	);
+
+	shaderDisplacement_.init(
+		"isolines_shader",
+		/* Vertex shader */
+
+		"#version 330\n\n"
+		"in vec3 position;\n"
+		"uniform mat4 MV;\n"
+		"uniform mat4 P;\n"
+		"void main() {\n"
+		"  gl_Position = P*MV*vec4(position, 1.0);\n"
+		"}",
+		/* Fragment shader */
+		"#version 330\n\n"
+		"out vec4 color;\n"
+		"void main() {\n"
+		"   color = vec4(1.0, 1.0, 1.0, 0.0);\n"
+		"}"
+	);
+
+	shaderFixedFaces_.init(
+		"a_simple_shader",
+
+		/* Vertex shader */
+		"#version 330\n"
+		"uniform mat4 MV;\n"
+		"uniform mat4 P;\n"
+		"in vec3 position;\n"
+		"void main() {\n"
+		"    vec4 vpoint_mv = MV * vec4(position, 1.0);\n"
+		"    gl_Position = P * vpoint_mv;\n"
+		"}",
+
+		/* Fragment shader */
+		"#version 330\n"
+		"out vec4 color;\n"
+		"void main() {\n"
+		"    color = vec4(1.0, 0.5, 0.0, 0.5);\n"
+		"}"
+	);
+
+	shaderShiftedFaces_.init(
+		"a_simple_shader",
+
+		/* Vertex shader */
+		"#version 330\n"
+		"uniform mat4 MV;\n"
+		"uniform mat4 P;\n"
+		"in vec3 position;\n"
+		"void main() {\n"
+		"    vec4 vpoint_mv = MV * vec4(position, 1.0);\n"
+		"    gl_Position = P * vpoint_mv;\n"
+		"}",
+
+		/* Fragment shader */
+		"#version 330\n"
+		"out vec4 color;\n"
+		"void main() {\n"
+		"    color = vec4(0.0, 0.5, 1.0, 0.5);\n"
+		"}"
 	);
 }
 
@@ -353,6 +474,10 @@ Viewer::Viewer() : nanogui::Screen(Eigen::Vector2i(1024, 768), "DGP Viewer") {
 		{ "off", "Object File Format" }
 		}, false);
 		if (filename != "") {
+			mesh_->fixed_faces_points_.clear();
+			mesh_->fixed_faces_points_indices_.clear();
+			mesh_->shifted_faces_points_.clear();
+			mesh_->shifted_faces_points_indices_.clear();
 			mesh_->load_mesh(filename);
 			this->refresh_mesh();
 			this->refresh_trackball_center();
@@ -372,112 +497,75 @@ Viewer::Viewer() : nanogui::Screen(Eigen::Vector2i(1024, 768), "DGP Viewer") {
 		this->normals_ = !this->normals_;
 	});
 
-	b = new Button(window_, "Valence");
+	b = new Button(window_, "Add Fixed Faces");
 	b->setFlags(Button::ToggleButton);
-	b->setChangeCallback([this](bool valence) {
-		if (valence) {
-			this->color_mode = VALENCE;
+	b->setChangeCallback([this](bool a) {
+		this->fixed_faces_ = !this->fixed_faces_;
+	});
+	b = new Button(window_, "Clear Fixed Faces");
+	b->setChangeCallback([this](bool a) {
+		mesh_->fixed_faces_points_.clear();
+		mesh_->fixed_faces_points_indices_.clear();
+		refresh_selected_faces();
+	});
+	b = new Button(window_, "Add Shifted Faces");
+	b->setFlags(Button::ToggleButton);
+	b->setChangeCallback([this](bool a) {
+		this->shifted_faces_ = !this->shifted_faces_;
+	});
+	b = new Button(window_, "Clear Shifted Faces");
+	b->setChangeCallback([this](bool a) {
+		mesh_->shifted_faces_points_.clear();
+		mesh_->shifted_faces_points_indices_.clear();
+		refresh_selected_faces();
+	});
+
+	new Label(window_, "Displacement X:", "sans-bold");
+	displacementXTextBox = new FloatBox<float>(window_, 1);
+	displacementXTextBox->setEditable(true);
+	displacementXTextBox->setFixedSize(Vector2i(50, 20));
+	displacementXTextBox->setDefaultValue("1");
+	displacementXTextBox->setFontSize(16);
+
+	new Label(window_, "Displacement Y:", "sans-bold");
+	displacementYTextBox = new FloatBox<float>(window_, 0);
+	displacementYTextBox->setEditable(true);
+	displacementYTextBox->setFixedSize(Vector2i(50, 20));
+	displacementYTextBox->setDefaultValue("1");
+	displacementYTextBox->setFontSize(16);
+
+	new Label(window_, "Displacement Z:", "sans-bold");
+	displacementZTextBox = new FloatBox<float>(window_, 0);
+	displacementZTextBox->setEditable(true);
+	displacementZTextBox->setFixedSize(Vector2i(50, 20));
+	displacementZTextBox->setDefaultValue("1");
+	displacementZTextBox->setFontSize(16);
+
+	b = new Button(window_, "Set Displacement");
+	b->setCallback([this]() {
+		if (mesh_->shifted_faces_points_.size() > 0) {
+			mesh_->displacement_points_.clear();
+			this->displacement_ = true;
+			surface_mesh::Point p = surface_mesh::Point(0, 0, 0);
+			for (size_t i = 0; i < mesh_->shifted_faces_points_.size(); i++) {
+				p += mesh_->shifted_faces_points_[i];
+			}
+			p /= mesh_->shifted_faces_points_.size();
+			surface_mesh::Point q = surface_mesh::Point(displacementXTextBox->value(), displacementYTextBox->value(), displacementZTextBox->value());
+			mesh_->displacement_ = q;
+			mesh_->displacement_points_.push_back(p);
+			mesh_->displacement_points_.push_back(p + q);
+			this->refresh_mesh();
 		}
-		else {
-			this->color_mode = NORMAL;
-		}
-		this->popupCurvature->setPushed(false);
 	});
 
-	popupCurvature = new PopupButton(window_, "Curvature");
-	popup = popupCurvature->popup();
-	popupCurvature->setCallback([this]() {
-		this->color_mode = CURVATURE;
-	});
-	popup->setLayout(new GroupLayout());
-	new Label(popup, "Curvature Type", "sans-bold");
-	b = new Button(popup, "Uniform Laplacian");
-	b->setFlags(Button::RadioButton);
-	b->setPushed(true);
+	b = new Button(window_, "Deformation");
 	b->setCallback([this]() {
-		this->curvature_type = UNIMEAN;
-	});
-	b = new Button(popup, "Laplace-Beltrami");
-	b->setFlags(Button::RadioButton);
-	b->setCallback([this]() {
-		this->curvature_type = LAPLACEBELTRAMI;
-	});
-	b = new Button(popup, "Gaussian");
-	b->setFlags(Button::RadioButton);
-	b->setCallback([this]() {
-		this->curvature_type = GAUSS;
-	});
-
-	new Label(window_, "Smoothing", "sans-bold");
-	popupBtn = new PopupButton(window_, "Smooth");
-	popup = popupBtn->popup();
-	popup->setLayout(new GroupLayout());
-	b = new Button(popup, "Uniform Laplacian");
-	b->setCallback([this]() {
-		mesh_->uniform_smooth(10);
-		mesh_->compute_mesh_properties();
-		this->refresh_mesh();
-	});
-	b = new Button(popup, "Laplace-Beltrami");
-	b->setCallback([this]() {
-		mesh_->smooth(10);
-		this->refresh_mesh();
-	});
-
-	b = new Button(popup, "Implicit Smoothing");
-	b->setCallback([this]() {
-		mesh_->implicit_smoothing();
-		mesh_->compute_mesh_properties();
-		this->refresh_mesh();
-	});
-
-	popupBtn = new PopupButton(window_, "Enhancement");
-	popup = popupBtn->popup();
-	popup->setLayout(new GroupLayout());
-
-	Widget* panel = new Widget(popup);
-	panel->setLayout(new GroupLayout());
-
-
-	b = new Button(panel, "Uniform Laplacian");
-	b->setCallback([this]() {
-		mesh_->uniform_laplacian_enhance_feature(this->iterationTextBox->value(),
-			this->coefTextBox->value());
-		mesh_->compute_mesh_properties();
-		this->refresh_mesh();
-	});
-	b = new Button(panel, "Laplace-Beltrami");
-	b->setCallback([this]() {
-		mesh_->laplace_beltrami_enhance_feature(this->iterationTextBox->value(),
-			this->coefTextBox->value());
-		mesh_->compute_mesh_properties();
-		this->refresh_mesh();
-	});
-
-	panel = new Widget(popup);
-	GridLayout *layout = new GridLayout(Orientation::Horizontal, 2,
-		Alignment::Middle, 15, 5);
-	layout->setColAlignment({ Alignment::Maximum, Alignment::Fill });
-	layout->setSpacing(0, 10);
-	panel->setLayout(layout);
-	new Label(panel, "Number of iterations:", "sans-bold");
-	iterationTextBox = new IntBox<int>(panel, 10);
-	iterationTextBox->setEditable(true);
-	iterationTextBox->setFixedSize(Vector2i(50, 20));
-	iterationTextBox->setDefaultValue("10");
-	iterationTextBox->setFontSize(16);
-	iterationTextBox->setFormat("[-]?[0-9]*\\.?[0-9]+");
-	new Label(panel, "Coefficient:", "sans-bold");
-	coefTextBox = new FloatBox<float>(panel, 2.0);
-	coefTextBox->setEditable(true);
-	coefTextBox->setFixedSize(Vector2i(50, 20));
-	coefTextBox->setDefaultValue("2.0");
-	coefTextBox->setFontSize(16);
-	coefTextBox->setFormat("[-]?[0-9]*\\.?[0-9]+");
-
-	b = new Button(window_, "Minimal Surface");
-	b->setCallback([this]() {
-		mesh_->minimal_surface();
+		mesh_->deformation();
+		cout << "DONE" << endl;
+		mesh_->shifted_faces_points_.clear();
+		mesh_->shifted_faces_points_indices_.clear();
+		mesh_->displacement_points_.clear();
 		mesh_->compute_mesh_properties();
 		this->refresh_mesh();
 	});
@@ -485,7 +573,7 @@ Viewer::Viewer() : nanogui::Screen(Eigen::Vector2i(1024, 768), "DGP Viewer") {
 	performLayout();
 
 	initShaders();
-	mesh_ = new mesh_processing::MeshProcessing("../data/max.off");
+	mesh_ = new mesh_processing::MeshProcessing("../data/bunny_1000.obj");
 	this->refresh_mesh();
 	this->refresh_trackball_center();
 }
@@ -507,9 +595,10 @@ void Viewer::refresh_mesh() {
 	shader_.uploadAttrib("unicruvature_color", *(mesh_->get_colors_unicurvature()));
 	shader_.uploadAttrib("curvature_color", *(mesh_->get_color_curvature()));
 	shader_.uploadAttrib("gaussian_curv_color", *(mesh_->get_colors_gaussian_curv()));
+	shader_.uploadAttrib("laplacian_color", *(mesh_->get_colors_laplacian()));
 	shader_.uploadAttrib("normal", *(mesh_->get_normals()));
 	shader_.setUniform("color_mode", int(color_mode));
-	shader_.setUniform("intensity", Vector3f(0.98, 0.59, 0.04));
+	shader_.setUniform("intensity", Vector3f(1.0, 1.0, 1.0));
 
 	shaderNormals_.bind();
 	shaderNormals_.shareAttrib(shader_, "indices");
@@ -517,15 +606,68 @@ void Viewer::refresh_mesh() {
 	shaderNormals_.shareAttrib(shader_, "normal");
 
 	refresh_selection();
+
+	refresh_isolines();
+
+	refresh_selected_faces();
 }
 
 void Viewer::refresh_selection() {
 	shaderSelection_.bind();
-	Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic> indices = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>(1, 1);
-	indices << 0;
+	Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic> indices = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>(4, 1);
+	indices << 0, 1, 2, 3;
 	Eigen::MatrixXf selection = (*(mesh_->get_selection()));
 	shaderSelection_.uploadIndices(indices);
 	shaderSelection_.uploadAttrib("position", selection);
+}
+
+void Viewer::refresh_selected_faces() {
+
+	if (fixed_faces_ && mesh_->fixed_faces_points_.size() > 0) {
+		shaderFixedFaces_.bind();
+		Eigen::MatrixXf points_selected_faces_ = Eigen::MatrixXf(3, mesh_->fixed_faces_points_.size());
+		for (size_t i = 0; i < mesh_->fixed_faces_points_.size(); i++) {
+			points_selected_faces_.col(i) << mesh_->fixed_faces_points_[i].x,
+				mesh_->fixed_faces_points_[i].y,
+				mesh_->fixed_faces_points_[i].z;
+		}
+		Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic> indices = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>(3, mesh_->fixed_faces_points_.size() / 3);
+		for (size_t i = 0; i < mesh_->fixed_faces_points_.size() / 3; i++) {
+			indices.col(i) << 3 * i, 3 * i + 1, 3 * i + 2;
+		}
+
+		shaderFixedFaces_.uploadIndices(indices);
+		shaderFixedFaces_.uploadAttrib("position", points_selected_faces_);
+	}
+
+	if (shifted_faces_ && mesh_->shifted_faces_points_.size() > 0) {
+		shaderShiftedFaces_.bind();
+		Eigen::MatrixXf points_selected_faces_ = Eigen::MatrixXf(3, mesh_->shifted_faces_points_.size());
+		for (size_t i = 0; i < mesh_->shifted_faces_points_.size(); i++) {
+			points_selected_faces_.col(i) << mesh_->shifted_faces_points_[i].x,
+				mesh_->shifted_faces_points_[i].y,
+				mesh_->shifted_faces_points_[i].z;
+		}
+		Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic> indices = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>(3, mesh_->shifted_faces_points_.size() / 3);
+		for (size_t i = 0; i < mesh_->shifted_faces_points_.size() / 3; i++) {
+			indices.col(i) << 3 * i, 3 * i + 1, 3 * i + 2;
+		}
+
+		shaderShiftedFaces_.uploadIndices(indices);
+		shaderShiftedFaces_.uploadAttrib("position", points_selected_faces_);
+	}
+}
+
+void Viewer::refresh_isolines() {
+	shaderDisplacement_.bind();
+	MatrixXf isolines_matrix(3, mesh_->displacement_points_.size());
+	for (size_t j = 0; j < mesh_->displacement_points_.size(); j++)
+		isolines_matrix.col(j) <<
+		mesh_->displacement_points_[j].x,
+		mesh_->displacement_points_[j].y,
+		mesh_->displacement_points_[j].z;
+
+	shaderDisplacement_.uploadAttrib("position", isolines_matrix);
 }
 
 void Viewer::computeCameraMatrices(Eigen::Matrix4f &model,

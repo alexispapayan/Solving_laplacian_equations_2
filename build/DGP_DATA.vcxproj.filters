@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\gauss\Desktop\dgp2017-exercise10\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\gauss\Desktop\dgp2017-exercise10\data\bunny.off" />
+    <None Include="C:\Users\gauss\Desktop\dgp2017-exercise10\data\bunny_1000.obj">
+      <Filter>Object Files</Filter>
+    </None>
+    <None Include="C:\Users\gauss\Desktop\dgp2017-exercise10\data\cylinder.obj">
+      <Filter>Object Files</Filter>
+    </None>
+    <None Include="C:\Users\gauss\Desktop\dgp2017-exercise10\data\cylinder_soap_bubble.obj">
+      <Filter>Object Files</Filter>
+    </None>
+    <None Include="C:\Users\gauss\Desktop\dgp2017-exercise10\data\cylinder_squished.obj">
+      <Filter>Object Files</Filter>
+    </None>
+    <None Include="C:\Users\gauss\Desktop\dgp2017-exercise10\data\max.off" />
+    <None Include="C:\Users\gauss\Desktop\dgp2017-exercise10\data\sphere.obj">
+      <Filter>Object Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object Files">
+      <UniqueIdentifier>{102207B9-7AF7-3F6B-A120-688C4C2B9E19}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

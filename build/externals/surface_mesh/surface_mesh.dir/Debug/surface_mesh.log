@@ -1,0 +1,16 @@
+﻿  Building Custom Rule C:/Users/gauss/Desktop/dgp2017-exercise10/externals/surface_mesh/CMakeLists.txt
+  CMake does not need to re-run because C:\Users\gauss\Desktop\dgp2017-exercise10\build\externals\surface_mesh\CMakeFiles\generate.stamp is up-to-date.
+cl : Command line warning D9025: overriding '/W3' with '/w'
+cl : Command line warning D9025: overriding '/W3' with '/w'
+cl : Command line warning D9025: overriding '/W3' with '/w'
+  IO.cpp
+  IO_obj.cpp
+cl : Command line warning D9025: overriding '/W3' with '/w'
+  IO_off.cpp
+cl : Command line warning D9025: overriding '/W3' with '/w'
+  IO_poly.cpp
+cl : Command line warning D9025: overriding '/W3' with '/w'
+  IO_stl.cpp
+cl : Command line warning D9025: overriding '/W3' with '/w'
+  Surface_mesh.cpp
+  surface_mesh.vcxproj -> C:\Users\gauss\Desktop\dgp2017-exercise10\build\externals\surface_mesh\Debug\surface_mesh.lib

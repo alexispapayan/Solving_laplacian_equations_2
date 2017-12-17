@@ -1,0 +1,4 @@
+﻿  Building Custom Rule C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/CMakeLists.txt
+  CMake does not need to re-run because C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\CMakeFiles\generate.stamp is up-to-date.
+  bin2c.c
+  bin2c.vcxproj -> C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\Debug\bin2c.exe

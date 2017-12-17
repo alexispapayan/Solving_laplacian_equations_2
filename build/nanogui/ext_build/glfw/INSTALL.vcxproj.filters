@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\gauss\Desktop\dgp2017-exercise10\build\CMakeFiles\1cbaa8c2704d148d6203fde7c542984d\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{32481B7A-9D3B-3A58-8EF5-F98B1B87E555}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

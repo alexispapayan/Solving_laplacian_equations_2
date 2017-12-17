@@ -1,0 +1,3 @@
+﻿  Building Custom Rule C:/Users/gauss/Desktop/dgp2017-exercise10/externals/nanogui/ext/glfw/src/CMakeLists.txt
+  CMake does not need to re-run because C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\CMakeFiles\generate.stamp is up-to-date.
+  glfw.vcxproj -> C:\Users\gauss\Desktop\dgp2017-exercise10\build\nanogui\ext_build\glfw\src\Debug\glfw3.lib

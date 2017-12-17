@@ -55,8 +55,11 @@ using namespace nanogui;
 class Viewer : public nanogui::Screen {
 public:
 	void select_point(const Eigen::Vector2i & pixel);
+	void select_face(const Eigen::Vector2i & pixel, int mode);
     void refresh_mesh();
 	void refresh_selection();
+	void refresh_isolines();
+	void refresh_selected_faces();
     void refresh_trackball_center();
     Viewer();
     ~Viewer();
@@ -96,22 +99,32 @@ private:
     nanogui::GLShader shader_;
     nanogui::GLShader shaderNormals_;
 	nanogui::GLShader shaderSelection_;
+	nanogui::GLShader shaderDisplacement_;
+	nanogui::GLShader shaderFixedFaces_;
+	nanogui::GLShader shaderShiftedFaces_;
     nanogui::Window *window_;
 
     mesh_processing::MeshProcessing* mesh_;
 
-    enum COLOR_MODE : int { NORMAL = 0, VALENCE = 1, CURVATURE = 2 };
+    enum COLOR_MODE : int { NORMAL = 0, VALENCE = 1, CURVATURE = 2, LAPLACIAN = 5 };
     enum CURVATURE_TYPE : int { UNIMEAN = 2, LAPLACEBELTRAMI = 3, GAUSS = 4 };
 
     // Boolean for the viewer
-    bool wireframe_ = false;
+    bool wireframe_ = true;
     bool normals_ = false;
-	bool selection_ = false;
-
+	bool displacement_ = false;
+	bool fixed_faces_ = false;
+	bool shifted_faces_ = false;
+	size_t edit_constraint_index_ = 0;
+	std::vector<size_t> contraint_indices_ = { 40, 58, 297, 484 };//{ 3, 1 };//{ 5, 7 }; // { 40, 58 };//{ 5, 7 };
+	
     CURVATURE_TYPE curvature_type = UNIMEAN;
     COLOR_MODE color_mode = NORMAL;
 
     PopupButton *popupCurvature;
     FloatBox<float>* coefTextBox;
-    IntBox<int>* iterationTextBox;
+    FloatBox<float>* displacementXTextBox;
+	FloatBox<float>* displacementYTextBox;
+	FloatBox<float>* displacementZTextBox;
+	IntBox<int>* iterationTextBox;
 };

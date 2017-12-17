@@ -1,0 +1,3 @@
+﻿cl : Command line warning D9025: overriding '/W3' with '/w'
+  mesh_processing.cpp
+  implicit_fairing.vcxproj -> C:\Users\gauss\Desktop\dgp2017-exercise10\build\implicit_fairing\Debug\implicit_fairing.exe
